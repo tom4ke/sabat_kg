@@ -1,6 +1,8 @@
 from rest_framework import viewsets, permissions
 from .serializers import CategorySerializer, ListingSerializer
 from .models import Category, Listing
+from rest_framework.response import Response
+from rest_framework import status
 
 
 # Category Viewset
@@ -24,15 +26,6 @@ class ListingViewSet(viewsets.ModelViewSet):
 
     serializer_class = ListingSerializer
 
-    # def get_permissions(self):
-    #     if self.action in ['update', 'partial_update', 'destroy', 'create']:
-    #         # which is permissions.IsAdminUser
-    #         self.permission_classes = [permissions.]
-    #     elif self.action in ['list']:
-    #         # which is permissions.IsAuthenticated
-    #         self.permission_classes = [permissions.IsAuthenticated]
-    #     return super().get_permissions()
-
     def get_queryset(self):
         queryset = Listing.objects.order_by('-list_date')
         if 'user_id' in self.request.GET:
@@ -45,17 +38,8 @@ class ListingViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    # def delete(self, request, *args, **kwargs):
-    #     listing = Listing.objects.get(id=self.kwargs['ad_id'])
-    #     if advertisement.admin == request.user:
-    #         DeleteAdvertisement
-    #         return Response(status=status.HTTP_200_OK)
-    #     else
-    #     return Response(status=status.HTTP_400_BAD_REQUEST)
-
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        print(instance.owner.id)
         if instance.owner == request.user:
             self.perform_destroy(instance)
             return Response(status=status.HTTP_204_NO_CONTENT)
