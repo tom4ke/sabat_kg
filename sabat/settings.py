@@ -14,7 +14,8 @@ SECRET_KEY = '%t78do1+r6-k5_wvv86lj@@k2n1h#q^*b29mv5x@f$!9ghm!!b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['176.126.167.88', 'localhost']
 
 
 # Application definition
@@ -28,7 +29,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'listings',
+
+    'rest_framework',
+    'knox',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
+}
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -113,7 +121,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'fdm_system/static')
+# ]
 
 
 # Media Folder Settings

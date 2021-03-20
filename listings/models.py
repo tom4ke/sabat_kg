@@ -40,3 +40,7 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = _('Жарыя')
+        verbose_name_plural = _('Жарыялар')
