@@ -16,6 +16,30 @@ class Category(models.Model):
         verbose_name_plural = _('Категориялар')
 
 
+class Country(models.Model):
+    title = models.CharField(max_length=30, verbose_name='Аты')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Өлкө')
+        verbose_name_plural = _('Өлкөлөр')
+
+
+class City(models.Model):
+    country = models.ForeignKey(
+        Country, on_delete=models.DO_NOTHING, null=True)
+    title = models.CharField(max_length=30, verbose_name='Аты')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Шаар')
+        verbose_name_plural = _('Шаарлар')
+
+
 class Listing(models.Model):
     owner = models.ForeignKey(
         User, related_name="listings", on_delete=models.CASCADE, null=True, verbose_name='Колдонуучу')
@@ -24,7 +48,9 @@ class Listing(models.Model):
     title = models.CharField(max_length=200)
 
     address = models.CharField(max_length=200, blank=True)
-    city = models.CharField(max_length=100, blank=True)
+
+    city = models.ForeignKey(City, on_delete=models.DO_NOTHING, null=True)
+
     description = models.TextField(blank=True)
     price = models.IntegerField()
     photo_main = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)

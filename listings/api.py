@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions
-from .serializers import CategorySerializer, ListingSerializer
-from .models import Category, Listing
+from .serializers import CategorySerializer, ListingSerializer, CountrySerializer, CitySerializer
+from .models import Category, Listing, Country, City
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -18,6 +18,32 @@ class CategoryViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+# Country Viewset
+class CountryViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAdminUser
+    ]
+
+    serializer_class = CountrySerializer
+
+    def get_queryset(self):
+        queryset = Country.objects.all()
+        return queryset
+
+
+# City Viewset
+class CityViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAdminUser
+    ]
+
+    serializer_class = CitySerializer
+
+    def get_queryset(self):
+        queryset = City.objects.all()
+        return queryset
+
+
 # AllListing Viewset
 class ListingViewSet(viewsets.ModelViewSet):
     permission_classes = [
@@ -28,6 +54,7 @@ class ListingViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Listing.objects.order_by('-list_date')
+
         if 'user_id' in self.request.GET:
             user_id = self.request.query_params.get('user_id')
             queryset.filter(owner=user_id)
