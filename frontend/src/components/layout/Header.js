@@ -123,7 +123,7 @@ export class Header extends Component {
               </li>
               <li className="nav-item mr-3">
                 <a className="nav-link" href="listings.html">
-                  Категориялар
+                  Иш-чаралар
                 </a>
               </li>
             </ul>

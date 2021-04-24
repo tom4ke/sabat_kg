@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'listings',
 
     'rest_framework',
+    'drf_yasg',
     'knox',
     'frontend',
 ]

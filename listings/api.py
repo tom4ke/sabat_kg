@@ -13,6 +13,15 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     serializer_class = CategorySerializer
 
+    def get_permissions(self):
+        if self.action in ['update', 'partial_update', 'destroy', 'create']:
+            # which is permissions.IsAdminUser
+            self.permission_classes = [permissions.IsAdminUser]
+        elif self.action in ['list']:
+            # which is permissions.IsAuthenticated
+            self.permission_classes = [permissions.AllowAny]
+        return super().get_permissions()
+
     def get_queryset(self):
         queryset = Category.objects.all()
         return queryset
@@ -26,6 +35,15 @@ class CountryViewSet(viewsets.ModelViewSet):
 
     serializer_class = CountrySerializer
 
+    def get_permissions(self):
+        if self.action in ['update', 'partial_update', 'destroy', 'create']:
+            # which is permissions.IsAdminUser
+            self.permission_classes = [permissions.IsAdminUser]
+        elif self.action in ['list']:
+            # which is permissions.IsAuthenticated
+            self.permission_classes = [permissions.AllowAny]
+        return super().get_permissions()
+
     def get_queryset(self):
         queryset = Country.objects.all()
         return queryset
@@ -38,6 +56,15 @@ class CityViewSet(viewsets.ModelViewSet):
     ]
 
     serializer_class = CitySerializer
+
+    def get_permissions(self):
+        if self.action in ['update', 'partial_update', 'destroy', 'create']:
+            # which is permissions.IsAdminUser
+            self.permission_classes = [permissions.IsAdminUser]
+        elif self.action in ['list']:
+            # which is permissions.IsAuthenticated
+            self.permission_classes = [permissions.AllowAny]
+        return super().get_permissions()
 
     def get_queryset(self):
         queryset = City.objects.all()
@@ -55,6 +82,7 @@ class ListingViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Listing.objects.order_by('-list_date')
 
+        # to sort by user
         if 'user_id' in self.request.GET:
             user_id = self.request.query_params.get('user_id')
             queryset.filter(owner=user_id)

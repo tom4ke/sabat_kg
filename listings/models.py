@@ -52,7 +52,7 @@ class Listing(models.Model):
     city = models.ForeignKey(City, on_delete=models.DO_NOTHING, null=True)
 
     description = models.TextField(blank=True)
-    price = models.IntegerField()
+    price = models.IntegerField(blank=True)
     photo_main = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
