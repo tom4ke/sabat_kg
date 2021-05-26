@@ -7,7 +7,7 @@ import { GET_LISTINGS, DELETE_LISTING, ADD_LISTING } from "./types";
 // GET LISTINGS
 export const getListings = () => (dispatch, getState) => {
   axios
-    .get("/api/listings/", tokenConfig(getState))
+    .get("/api/courses/", tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_LISTINGS,

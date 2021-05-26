@@ -96,7 +96,10 @@ import React, { Component } from "react";
 export class Header extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-sm navbar-blue bg-white sticky-top">
+      <nav
+        className="navbar navbar-expand-sm navbar-blue bg-secondary sticky-top"
+        // style="background-color:#99A3A3;"
+      >
         <div className="container">
           <a className="navbar-brand" href="index.html">
             <img src="" className="logo" alt=""></img>
@@ -112,17 +115,19 @@ export class Header extends Component {
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul className="navbar-nav">
               <li className="nav-item active mr-3">
-                <a className="nav-link" href="index.html">
+                <a className="nav-link text-white" href="index.html">
                   Башкы бет
                 </a>
               </li>
+
               <li className="nav-item mr-3">
-                <a className="nav-link" href="about.html">
+                <a className="nav-link text-white" href="about.html">
                   Курстар
                 </a>
               </li>
+
               <li className="nav-item mr-3">
-                <a className="nav-link" href="listings.html">
+                <a className="nav-link text-white" href="listings.html">
                   Иш-чаралар
                 </a>
               </li>
@@ -130,12 +135,12 @@ export class Header extends Component {
 
             <ul className="navbar-nav ml-auto">
               <li className="nav-item mr-3">
-                <a className="nav-link" href="register.html">
+                <a className="nav-link text-white" href="register.html">
                   <i className="fa fa-user-plus"> </i> Катталуу
                 </a>
               </li>
               <li className="nav-item mr-3">
-                <a className="nav-link" href="login.html">
+                <a className="nav-link text-white" href="login.html">
                   <i className="fa fa-sign-in"> </i>
                   Кирүү
                 </a>

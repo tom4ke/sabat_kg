@@ -4,6 +4,11 @@ from .models import Category, Listing, Country, City
 
 # Category Serializer
 class CategorySerializer(serializers.ModelSerializer):
+    quantity = serializers.SerializerMethodField()
+
+    def get_quantity(self, category):
+        return Listing.objects.filter(category=category).count()
+
     class Meta:
         model = Category
         fields = '__all__'
@@ -23,11 +28,18 @@ class CitySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# Listing Serializer
+class ListingAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Listing
+        fields = '__all__'
+
+
 class ListingSerializer(serializers.ModelSerializer):
     city_title = serializers.SerializerMethodField()
     category_title = serializers.SerializerMethodField()
     country_title = serializers.SerializerMethodField()
+    owner_name = serializers.SerializerMethodField()
+    owner_avatar = serializers.SerializerMethodField()
 
     def get_category_title(self, listing):
         return listing.category.title
@@ -37,6 +49,39 @@ class ListingSerializer(serializers.ModelSerializer):
 
     def get_city_title(self, listing):
         return listing.city.title
+
+    def get_owner_name(self, listing):
+        return listing.owner.first_name
+
+    def get_owner_avatar(self, listing):
+        if listing.owner.avatar:
+            return listing.owner.avatar.url
+        return ''
+
+    class Meta:
+        model = Listing
+        fields = ('id', 'category_title', 'country_title', 'city_title', 'owner_avatar',
+                  'owner_name', 'photo_main', 'title', 'price', 'address', 'description', 'list_date')
+
+
+# Listing Serializer
+class ListingDetailSerializer(serializers.ModelSerializer):
+    city_title = serializers.SerializerMethodField()
+    category_title = serializers.SerializerMethodField()
+    country_title = serializers.SerializerMethodField()
+    owner_name = serializers.SerializerMethodField()
+
+    def get_category_title(self, listing):
+        return listing.category.title
+
+    def get_country_title(self, listing):
+        return listing.city.country.title
+
+    def get_city_title(self, listing):
+        return listing.city.title
+
+    def get_owner_name(self, listing):
+        return listing.owner.first_name
 
     class Meta:
         model = Listing

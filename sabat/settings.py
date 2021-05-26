@@ -15,7 +15,7 @@ SECRET_KEY = '%t78do1+r6-k5_wvv86lj@@k2n1h#q^*b29mv5x@f$!9ghm!!b'
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['176.126.167.88', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -27,14 +27,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'users',
     'listings',
+    'corsheaders',
 
     'rest_framework',
     'drf_yasg',
     'knox',
     'frontend',
+
 ]
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
@@ -42,9 +46,14 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'users.User'
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
