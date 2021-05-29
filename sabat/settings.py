@@ -36,12 +36,14 @@ INSTALLED_APPS = [
     'drf_yasg',
     'knox',
     'frontend',
+    'django_filters',
 
 ]
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 AUTH_USER_MODEL = 'users.User'
