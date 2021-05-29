@@ -42,16 +42,24 @@ class ListingSerializer(serializers.ModelSerializer):
     owner_avatar = serializers.SerializerMethodField()
 
     def get_category_title(self, listing):
-        return listing.category.title
+        if listing.category:
+            return listing.category.title
+        return 'Белгисиз'
 
     def get_country_title(self, listing):
-        return listing.city.country.title
+        if listing.city:
+            return listing.city.country.title
+        return 'Белгисиз'
 
     def get_city_title(self, listing):
-        return listing.city.title
+        if listing.city:
+            return listing.city.title
+        return 'Кыргызстан'
 
     def get_owner_name(self, listing):
-        return listing.owner.first_name
+        if listing.owner:
+            return listing.owner.username
+        return ''
 
     def get_owner_avatar(self, listing):
         if listing.owner.avatar:

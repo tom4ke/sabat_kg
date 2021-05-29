@@ -18,7 +18,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             # which is permissions.IsAdminUser
             self.permission_classes = [permissions.IsAdminUser]
         elif self.action in ['list']:
-            # which is permissions.IsAuthenticated
+            # which is permissions.AllowAny
             self.permission_classes = [permissions.AllowAny]
         return super().get_permissions()
 
@@ -90,8 +90,21 @@ class ListingViewSet(viewsets.ModelViewSet):
             queryset.filter(is_published=True)
         return queryset
 
+    def create(self, request, *args, **kwargs):
+
+        serializer = ListingAddSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
