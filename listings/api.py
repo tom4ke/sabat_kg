@@ -1,8 +1,10 @@
+from typing import List
 from rest_framework import viewsets, permissions
 from .serializers import CategorySerializer, ListingSerializer, CountrySerializer, CitySerializer, ListingDetailSerializer, ListingAddSerializer
 from .models import Category, Listing, Country, City
 from rest_framework.response import Response
 from rest_framework import status
+from django_filters import rest_framework as filters
 
 
 # Category Viewset
@@ -71,6 +73,21 @@ class CityViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+# Course Filter
+class CourseFilter(filters.FilterSet):
+
+    class Meta:
+        model = Listing
+        fields = {
+            'title': ['icontains'],
+            'price': ['gte', 'lte'],
+            'description': ['icontains'],
+            'city': ['exact'],
+            'category': ['exact'],
+            'owner': ['exact'],
+        }
+
+
 # AllListing Viewset
 class ListingViewSet(viewsets.ModelViewSet):
     permission_classes = [
@@ -78,6 +95,7 @@ class ListingViewSet(viewsets.ModelViewSet):
     ]
 
     serializer_class = ListingSerializer
+    filterset_class = CourseFilter
 
     def get_queryset(self):
         queryset = Listing.objects.order_by('-list_date')
