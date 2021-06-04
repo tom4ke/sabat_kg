@@ -75,7 +75,6 @@ class CityViewSet(viewsets.ModelViewSet):
 
 # Course Filter
 class CourseFilter(filters.FilterSet):
-
     class Meta:
         model = Listing
         fields = {
