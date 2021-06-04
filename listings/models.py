@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 
 
+# Categories Model
 class Category(models.Model):
     title = models.CharField(max_length=200)
     icon = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
@@ -16,6 +17,7 @@ class Category(models.Model):
         verbose_name_plural = _('Категориялар')
 
 
+# Countries Model
 class Country(models.Model):
     title = models.CharField(max_length=30, verbose_name='Аты')
 
@@ -27,6 +29,7 @@ class Country(models.Model):
         verbose_name_plural = _('Өлкөлөр')
 
 
+# Cities Model
 class City(models.Model):
     country = models.ForeignKey(
         Country, on_delete=models.DO_NOTHING, null=True)
@@ -40,6 +43,7 @@ class City(models.Model):
         verbose_name_plural = _('Шаарлар')
 
 
+# Listings Model
 class Listing(models.Model):
     owner = models.ForeignKey(
         User, related_name="listings", on_delete=models.CASCADE, null=True, verbose_name='Колдонуучу')
@@ -67,3 +71,31 @@ class Listing(models.Model):
     class Meta:
         verbose_name = _('Жарыя')
         verbose_name_plural = _('Жарыялар')
+
+
+# Favorites Model
+class FavoriteListing(models.Model):
+    listing = models.ForeignKey(
+        Listing, related_name='favorites', on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        User, related_name='user_favorite_listings', on_delete=models.CASCADE)
+
+
+# Comments Model
+class ListingComment(models.Model):
+    listing = models.ForeignKey(
+        Listing, related_name='comments', on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        User, related_name='user_comments', on_delete=models.CASCADE)
+    comment = models.TextField()
+
+
+# Inquiry Model
+class Inquiry(models.Model):
+    listing = models.ForeignKey(
+        Listing, related_name='inquiries', on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        User, related_name='user_inquiries', on_delete=models.CASCADE)
+    # it can inherited from User or can be written another phone number
+    phone_number = models.CharField(max_length=20)
+    message = models.TextField()
