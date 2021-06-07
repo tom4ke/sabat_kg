@@ -4,7 +4,7 @@ from .serializers import CategorySerializer, ListingSerializer, CountrySerialize
 from .models import Category, Listing, Country, City
 from rest_framework.response import Response
 from rest_framework import status
-from django_filters import rest_framework as filters
+from .filters import CourseFilter
 
 
 # Category Viewset
@@ -25,7 +25,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def get_queryset(self):
-        queryset = Category.objects.all()
+        queryset = Category.objects.order_by('-title')
         return queryset
 
 
@@ -71,20 +71,6 @@ class CityViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = City.objects.all()
         return queryset
-
-
-# Course Filter
-class CourseFilter(filters.FilterSet):
-    class Meta:
-        model = Listing
-        fields = {
-            'title': ['icontains'],
-            'price': ['gte', 'lte'],
-            'description': ['icontains'],
-            'city': ['exact'],
-            'category': ['exact'],
-            'owner': ['exact'],
-        }
 
 
 # AllListing Viewset

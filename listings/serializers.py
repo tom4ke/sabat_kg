@@ -69,7 +69,7 @@ class ListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
         fields = ('id', 'category_title', 'country_title', 'city_title', 'owner_avatar',
-                  'owner_name', 'photo_main', 'title', 'price', 'address', 'description', 'list_date')
+                  'owner_name', 'photo_main', 'title', 'price', 'address', 'description', 'list_date', 'phone_number')
 
 
 # Listing Serializer
