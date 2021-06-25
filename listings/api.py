@@ -1,7 +1,7 @@
 from typing import List
 from rest_framework import viewsets, permissions
-from .serializers import CategorySerializer, ListingSerializer, CountrySerializer, CitySerializer, ListingDetailSerializer, ListingAddSerializer
-from .models import Category, Listing, Country, City
+from .serializers import CategorySerializer, FavoriteListingSerializer, InquirySerializer, ListingCommentSerializer, ListingSerializer, CountrySerializer, CitySerializer, ListingDetailSerializer, ListingAddSerializer
+from .models import Category, FavoriteListing, Inquiry, Listing, Country, City, ListingComment
 from rest_framework.response import Response
 from rest_framework import status
 from .filters import CourseFilter
@@ -119,3 +119,87 @@ class ListingViewSet(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         instance.delete()
+
+
+# FavoriteListing Viewset
+class FavoriteListingViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    serializer_class = FavoriteListingSerializer
+
+    def get_permissions(self):
+        if self.action in ['destroy', 'create', 'list']:
+            self.permission_classes = [permissions.IsAuthenticated]
+        return super().get_permissions()
+
+    def get_queryset(self):
+        queryset = FavoriteListing.objects.all()
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        serializer = FavoriteListingSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+# ListingComment Viewset
+class ListingCommentViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    serializer_class = ListingCommentSerializer
+
+    def get_permissions(self):
+        if self.action in ['destroy', 'create', 'list']:
+            self.permission_classes = [permissions.IsAuthenticated]
+        return super().get_permissions()
+
+    def get_queryset(self):
+        queryset = ListingComment.objects.all()
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        serializer = ListingCommentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+# Inquiry Viewset
+class InquiryViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    serializer_class = InquirySerializer
+
+    def get_permissions(self):
+        if self.action in ['destroy', 'create', 'list']:
+            self.permission_classes = [permissions.IsAuthenticated]
+        return super().get_permissions()
+
+    def get_queryset(self):
+        queryset = Inquiry.objects.all()
+        return queryset
+
+    def create(self, request, *args, **kwargs):
+        serializer = InquirySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)

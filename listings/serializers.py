@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Listing, Country, City
+from .models import Category, FavoriteListing, Inquiry, Listing, Country, City, ListingComment
 
 
 # Category Serializer
@@ -93,4 +93,25 @@ class ListingDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Listing
+        fields = '__all__'
+
+
+# ListingCommentSerializer
+class ListingCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListingComment
+        fields = '__all__'
+
+
+# FavoriteListingSerializer
+class FavoriteListingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavoriteListing
+        fields = '__all__'
+
+
+# InquirySerializer
+class InquirySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inquiry
         fields = '__all__'

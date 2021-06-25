@@ -76,7 +76,7 @@ class FavoriteListing(models.Model):
     listing = models.ForeignKey(
         Listing, related_name='favorites', on_delete=models.CASCADE)
     owner = models.ForeignKey(
-        User, related_name='user_favorite_listings', on_delete=models.CASCADE)
+        User, related_name='user_favorite_listings', null=True, on_delete=models.CASCADE)
 
 
 # Comments Model
@@ -84,7 +84,7 @@ class ListingComment(models.Model):
     listing = models.ForeignKey(
         Listing, related_name='comments', on_delete=models.CASCADE)
     owner = models.ForeignKey(
-        User, related_name='user_comments', on_delete=models.CASCADE)
+        User, related_name='user_comments', null=True, on_delete=models.CASCADE)
     comment = models.TextField()
 
 
@@ -93,7 +93,7 @@ class Inquiry(models.Model):
     listing = models.ForeignKey(
         Listing, related_name='inquiries', on_delete=models.CASCADE)
     owner = models.ForeignKey(
-        User, related_name='user_inquiries', on_delete=models.CASCADE)
+        User, related_name='user_inquiries', null=True, on_delete=models.CASCADE)
     # it can inherited from User or can be written another phone number
     phone_number = models.CharField(max_length=20)
     message = models.TextField()
