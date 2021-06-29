@@ -6,8 +6,9 @@ from datetime import datetime
 
 # Categories Model
 class Category(models.Model):
-    title = models.CharField(max_length=200)
-    icon = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
+    title = models.CharField(max_length=200, verbose_name="Аталышы")
+    icon = models.ImageField(upload_to='photos/%Y/%m/%d/',
+                             blank=True, verbose_name="Иконкасы")
 
     def __str__(self):
         return self.title
@@ -74,9 +75,16 @@ class Listing(models.Model):
 # Favorites Model
 class FavoriteListing(models.Model):
     listing = models.ForeignKey(
-        Listing, related_name='favorites', on_delete=models.CASCADE)
+        Listing, related_name='favorites', on_delete=models.CASCADE, verbose_name='Жарнама')
     owner = models.ForeignKey(
-        User, related_name='user_favorite_listings', null=True, on_delete=models.CASCADE)
+        User, related_name='user_favorite_listings', null=True, on_delete=models.CASCADE, verbose_name='Колдонуучу')
+
+    def __str__(self):
+        return self.listing
+
+    class Meta:
+        verbose_name = _('Колдонуучу сактап алган жарнама')
+        verbose_name_plural = _('Колдонуучу сактап алган жарнамалар')
 
 
 # Comments Model
@@ -84,8 +92,15 @@ class ListingComment(models.Model):
     listing = models.ForeignKey(
         Listing, related_name='comments', on_delete=models.CASCADE)
     owner = models.ForeignKey(
-        User, related_name='user_comments', null=True, on_delete=models.CASCADE)
-    comment = models.TextField()
+        User, related_name='user_comments', null=True, on_delete=models.CASCADE, verbose_name='Колдонуучу')
+    comment = models.TextField(verbose_name='Комментарий')
+
+    def __str__(self):
+        return self.listing.title
+
+    class Meta:
+        verbose_name = _('Комментарий')
+        verbose_name_plural = _('Комментарийлер')
 
 
 # Inquiry Model
@@ -97,3 +112,10 @@ class Inquiry(models.Model):
     # it can inherited from User or can be written another phone number
     phone_number = models.CharField(max_length=20)
     message = models.TextField()
+
+    def __str__(self):
+        return self.listing.title
+
+    class Meta:
+        verbose_name = _('Билдирүү')
+        verbose_name_plural = _('Билдирүүлөр')
