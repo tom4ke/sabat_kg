@@ -1,4 +1,5 @@
 from typing import List
+from django.http import request
 from rest_framework import viewsets, permissions
 from .serializers import CategorySerializer, FavoriteListingSerializer, InquirySerializer, ListingCommentSerializer, ListingSerializer, CountrySerializer, CitySerializer, ListingDetailSerializer, ListingAddSerializer
 from .models import Category, FavoriteListing, Inquiry, Listing, Country, City, ListingComment
@@ -84,13 +85,6 @@ class ListingViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Listing.objects.order_by('-list_date')
-
-        # to sort by user
-        if 'user_id' in self.request.GET:
-            user_id = self.request.query_params.get('user_id')
-            queryset.filter(owner=user_id)
-        else:
-            queryset.filter(is_published=True)
         return queryset
 
     def create(self, request, *args, **kwargs):

@@ -40,6 +40,16 @@ class ListingSerializer(serializers.ModelSerializer):
     country_title = serializers.SerializerMethodField()
     owner_name = serializers.SerializerMethodField()
     owner_avatar = serializers.SerializerMethodField()
+    is_favorite = serializers.SerializerMethodField()
+
+    def get_is_favorite(self, listing):
+        print(self.context['request'].user)
+        # favorite_listings = FavoriteListing.objects.filter(
+        #     owner=user_id).count()
+        # if favorite_listings:
+        #     return True
+        # return False
+        return False
 
     def get_category_title(self, listing):
         if listing.category:
@@ -69,7 +79,7 @@ class ListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
         fields = ('id', 'category_title', 'country_title', 'city_title', 'owner_avatar',
-                  'owner_name', 'photo_main', 'title', 'price', 'address', 'description', 'list_date', 'phone_number')
+                  'owner_name', 'photo_main', 'title', 'price', 'address', 'description', 'list_date', 'phone_number', 'is_favorite')
 
 
 # Listing Serializer

@@ -16,8 +16,8 @@ class ListingCommentAdmin(admin.ModelAdmin):
 
 admin.site.register(City)
 admin.site.register(Country)
-admin.site.register(ListingComment, ListingCommentAdmin)
-admin.site.register(FavoriteListing)
-admin.site.register(Inquiry)
+# admin.site.register(ListingComment, ListingCommentAdmin)
+# admin.site.register(FavoriteListing)
+# admin.site.register(Inquiry)
 admin.site.register(Listing, ListingAdmin)
 admin.site.register(Category, CategoryAdmin)
